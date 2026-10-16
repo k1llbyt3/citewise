@@ -1,0 +1,26 @@
+
+[project]
+name = "citewise"
+version = "0.1.0"
+description = "Lightweight PDF ingestion pipeline for RAG"
+requires-python = ">=3.11"
+dependencies = [
+    "pymupdf>=1.24",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
