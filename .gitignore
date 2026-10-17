@@ -39,3 +39,4 @@ desktop.ini
 
 # Generated ingestion reports
 output/*.json
+data/semantic_index.json
