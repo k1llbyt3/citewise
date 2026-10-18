@@ -1,21 +1,14 @@
-
 """Generate answers grounded only in retrieved PDF passages."""
-
-import json
-import os
+import json,os
 from typing import Any
-
+from citewise.api_limits import wait_for_api_slot
 from citewise.embeddings import _get_client
 
-
 DEFAULT_GENERATION_MODEL = "gemini-2.5-flash"
-
 INSUFFICIENT_EVIDENCE = (
     "I couldn't find enough information in the provided PDF passages "
     "to answer this question reliably."
 )
-
-
 def generate_answer(
     question: str,
     passages: list[dict[str, Any]],
@@ -105,7 +98,7 @@ SUPPLIED PDF PASSAGES:
         "CITEWISE_GENERATION_MODEL",
         DEFAULT_GENERATION_MODEL,
     )
-
+    wait_for_api_slot()
     response = client.models.generate_content(
         model=model,
         contents=prompt,

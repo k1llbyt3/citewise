@@ -182,3 +182,27 @@ def test_retriever_rejects_wrong_vector_dimensions():
             "dimensions": EMBEDDING_DIMENSIONS,
             "items": [item],
         })
+
+
+def test_semantic_retriever_uses_query_cache(monkeypatch):
+    def unexpected_embed(*args, **kwargs):
+        raise AssertionError("embed_query should NOT be called when query_cache provides the vector")
+
+    monkeypatch.setattr(semantic_module, "embed_query", unexpected_embed)
+
+    class MockCache:
+        def __init__(self):
+            self.called_with = []
+
+        def get_embedding(self, query: str):
+            self.called_with.append(query)
+            return make_vector(1.0, 0.0)
+
+    cache = MockCache()
+    retriever = SemanticRetriever(make_index(), query_cache=cache)
+    results = retriever.search("password protection", top_k=2)
+
+    assert len(results) == 2
+    assert cache.called_with == ["password protection"]
+    assert results[0]["chunk_id"] == "chunk-2"
+

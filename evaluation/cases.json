@@ -1,0 +1,36 @@
+
+[
+  {
+    "id": "EV001",
+    "category": "grounded_answer",
+    "question": "Why is chunking useful?",
+    "expected_answerable": true,
+    "expected_citation": {
+      "filename": "text_sample.pdf",
+      "page_number": 2
+    },
+    "required_terms": ["smaller passages", "overlap"],
+    "description": "Checks whether the answer explains chunking using the PDF evidence."
+  },
+  {
+    "id": "EV002",
+    "category": "citation_accuracy",
+    "question": "Which page contains project test facts?",
+    "expected_answerable": true,
+    "expected_citation": {
+      "filename": "text_sample.pdf",
+      "page_number": 3
+    },
+    "required_terms": ["page 3"],
+    "description": "Checks whether the answer identifies the correct PDF page."
+  },
+  {
+    "id": "EV003",
+    "category": "insufficient_evidence",
+    "question": "What is the capital of France?",
+    "expected_answerable": false,
+    "expected_citation": null,
+    "required_terms": [],
+    "description": "Checks whether CiteWise abstains when the PDFs do not support an answer."
+  }
+]

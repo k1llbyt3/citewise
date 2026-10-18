@@ -1,7 +1,7 @@
 
 """Combine BM25 and semantic search rankings using RRF."""
 
-from typing import Any
+from typing import Any, Optional
 
 from citewise.retriever import BM25Retriever
 from citewise.semantic_retriever import SemanticRetriever
@@ -19,13 +19,23 @@ class HybridRetriever:
         index: dict[str, Any],
         client=None,
         rrf_k: int = DEFAULT_RRF_K,
+        query_cache: Optional[Any] = None,
     ):
         if not isinstance(rrf_k, int) or isinstance(rrf_k, bool) or rrf_k < 1:
             raise ValueError("rrf_k must be a positive integer.")
 
         self.bm25 = BM25Retriever(chunks)
-        self.semantic = SemanticRetriever(index, client=client)
+        if query_cache is not None:
+            try:
+                self.semantic = SemanticRetriever(
+                    index, client=client, query_cache=query_cache
+                )
+            except TypeError:
+                self.semantic = SemanticRetriever(index, client=client)
+        else:
+            self.semantic = SemanticRetriever(index, client=client)
         self.rrf_k = rrf_k
+        self.query_cache = query_cache
 
     def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """Return chunks ranked by the combined BM25 and semantic rankings."""

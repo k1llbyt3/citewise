@@ -1,0 +1,466 @@
+[
+  {
+    "id": "EVAL-001",
+    "question": "What are the four primary functions that comprise the NIST AI Risk Management Framework Core?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "The NIST AI RMF Core comprises four functions: GOVERN, MAP, MEASURE, and MANAGE.",
+    "required_concepts": [
+      "GOVERN",
+      "MAP",
+      "MEASURE",
+      "MANAGE"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 25,
+        "chunk_id": "7576edb531d9-p25-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly stated in Section 2 (AI RMF Core) on page 25 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-002",
+    "question": "What are the six Functions that organize cybersecurity outcomes in the NIST Cybersecurity Framework (CSF) 2.0 Core?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "The six Functions in the NIST CSF 2.0 Core are GOVERN (GV), IDENTIFY (ID), PROTECT (PR), DETECT (DE), RESPOND (RS), and RECOVER (RC).",
+    "required_concepts": [
+      "GOVERN",
+      "IDENTIFY",
+      "PROTECT",
+      "DETECT",
+      "RESPOND",
+      "RECOVER"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 8,
+        "chunk_id": "3c31f46fee98-p8-c2"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 9,
+        "chunk_id": "3c31f46fee98-p9-c2"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 31,
+        "chunk_id": "3c31f46fee98-p31-c2"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly defined in Section 2 (pages 8-9) and Appendix C Glossary (page 31) of nist_csf_2.pdf."
+  },
+  {
+    "id": "EVAL-003",
+    "question": "What are the four Tiers defined in NIST CSF 2.0 to characterize cybersecurity risk governance and management rigor?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "The four CSF 2.0 Tiers are Tier 1 (Partial), Tier 2 (Risk Informed), Tier 3 (Repeatable), and Tier 4 (Adaptive).",
+    "required_concepts": [
+      "Partial",
+      "Risk Informed",
+      "Repeatable",
+      "Adaptive"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 31,
+        "chunk_id": "3c31f46fee98-p31-c3"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly defined in Appendix C Glossary on page 31 of nist_csf_2.pdf."
+  },
+  {
+    "id": "EVAL-004",
+    "question": "According to the project test facts, which text extraction library and OCR engine are configured for CiteWise?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "CiteWise uses PyMuPDF for text extraction and Tesseract as its OCR engine.",
+    "required_concepts": [
+      "PyMuPDF",
+      "Tesseract"
+    ],
+    "expected_citations": [
+      {
+        "filename": "text_sample.pdf",
+        "page_number": 3,
+        "chunk_id": "b637c456e6e5-p3-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Explicitly listed under Project Test Facts on page 3 of text_sample.pdf."
+  },
+  {
+    "id": "EVAL-005",
+    "question": "What key characteristics of trustworthy AI systems are articulated in the NIST AI Risk Management Framework?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "Characteristics of trustworthy AI systems include: valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy-enhanced, and fair with their harmful biases managed.",
+    "required_concepts": [
+      "valid and reliable",
+      "safe",
+      "secure and resilient",
+      "accountable and transparent",
+      "explainable and interpretable",
+      "privacy-enhanced",
+      "fair"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 8,
+        "chunk_id": "7576edb531d9-p8-c1"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 17,
+        "chunk_id": "7576edb531d9-p17-c1"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Explicitly defined on page 8 and Section 3 (AI Risks and Trustworthiness) on page 17 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-006",
+    "question": "In the NIST cybersecurity model, how are restoration of impaired assets and post-incident dialogue handled following a breach?",
+    "category": "paraphrased_semantic",
+    "expected_answerable": true,
+    "reference_answer": "The RECOVER (RC) function restores assets and operations affected by a cybersecurity incident, reduces incident effects, and enables appropriate communication during recovery efforts.",
+    "required_concepts": [
+      "RECOVER",
+      "restoration",
+      "communication"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 9,
+        "chunk_id": "3c31f46fee98-p9-c2"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Paraphrases the RECOVER function outcomes in nist_csf_2.pdf page 9 chunk c2."
+  },
+  {
+    "id": "EVAL-007",
+    "question": "How does organizational leadership instill accountability and cultivate an ongoing safety culture for intelligent autonomous systems?",
+    "category": "paraphrased_semantic",
+    "expected_answerable": true,
+    "reference_answer": "The GOVERN function in the AI RMF cultivates and implements a culture of risk management within organizations designing, developing, deploying, evaluating, or acquiring AI systems.",
+    "required_concepts": [
+      "GOVERN",
+      "culture of risk management",
+      "accountability"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 26,
+        "chunk_id": "7576edb531d9-p26-c3"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 27,
+        "chunk_id": "7576edb531d9-p27-c2"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Paraphrases the GOVERN function's purpose from nist_ai_rmf.pdf pages 26-27."
+  },
+  {
+    "id": "EVAL-008",
+    "question": "How does the CiteWise ingestion process prevent loss of surrounding semantic information between adjacent document segments?",
+    "category": "paraphrased_semantic",
+    "expected_answerable": true,
+    "reference_answer": "CiteWise uses chunk overlap to preserve context between adjacent chunks.",
+    "required_concepts": [
+      "overlap",
+      "preserve context"
+    ],
+    "expected_citations": [
+      {
+        "filename": "text_sample.pdf",
+        "page_number": 2,
+        "chunk_id": "b637c456e6e5-p2-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Page 2 of text_sample.pdf states 'Overlap can preserve context between adjacent chunks.'"
+  },
+  {
+    "id": "EVAL-009",
+    "question": "In NIST CSF 2.0, what is the operational purpose of Organizational Profiles, and how do Current and Target Profiles differ?",
+    "category": "multi_passage",
+    "expected_answerable": true,
+    "reference_answer": "Organizational Profiles describe an organization's cybersecurity posture in terms of CSF Core outcomes. Current Profiles specify the outcomes currently achieved, while Target Profiles specify the desired outcomes selected and prioritized to achieve risk management objectives.",
+    "required_concepts": [
+      "Organizational Profile",
+      "Current Profile",
+      "Target Profile"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 6,
+        "chunk_id": "3c31f46fee98-p6-c2"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 31,
+        "chunk_id": "3c31f46fee98-p31-c1"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 31,
+        "chunk_id": "3c31f46fee98-p31-c3"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Synthesizes overview on page 6 with definitions of Current Profile (page 31 chunk c1) and Target Profile (page 31 chunk c3)."
+  },
+  {
+    "id": "EVAL-010",
+    "question": "What is TEVV in the NIST AI RMF, and why must TEVV tasks be integrated across the AI lifecycle?",
+    "category": "multi_passage",
+    "expected_answerable": true,
+    "reference_answer": "TEVV stands for test, evaluation, verification, and validation. Performed regularly across lifecycle dimensions, TEVV tasks provide insights into technical, societal, legal, and ethical standards, and enable both mid-course remediation and post-hoc risk management.",
+    "required_concepts": [
+      "test, evaluation, verification, and validation",
+      "lifecycle",
+      "remediation"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 14,
+        "chunk_id": "7576edb531d9-p14-c2"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 14,
+        "chunk_id": "7576edb531d9-p14-c3"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Synthesizes definition from chunk c2 and lifecycle role from chunk c3 on page 14 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-011",
+    "question": "Describe the hierarchical structure of the NIST CSF 2.0 Core from top-level functions down to actionable guidance.",
+    "category": "multi_page",
+    "expected_answerable": true,
+    "reference_answer": "The CSF Core is arranged in a hierarchy of Functions (highest level outcomes), Categories (subdivisions of outcomes), and Subcategories (more specific technical/management outcomes). Additional online resources provide Informative References and Implementation Examples.",
+    "required_concepts": [
+      "Functions",
+      "Categories",
+      "Subcategories",
+      "outcomes"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 6,
+        "chunk_id": "3c31f46fee98-p6-c1"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 8,
+        "chunk_id": "3c31f46fee98-p8-c1"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Requires information from page 6 (overview) and page 8 (hierarchy and components) of nist_csf_2.pdf."
+  },
+  {
+    "id": "EVAL-012",
+    "question": "How does the GOVERN function interact with the MAP, MEASURE, and MANAGE functions in the NIST AI Risk Management Framework?",
+    "category": "multi_page",
+    "expected_answerable": true,
+    "reference_answer": "GOVERN is a cross-cutting function designed to inform and be infused throughout MAP, MEASURE, and MANAGE. It enables teams to integrate risk management across all processes, while MAP frames context, MEASURE analyzes risks, and MANAGE allocates resources to address them.",
+    "required_concepts": [
+      "cross-cutting",
+      "inform",
+      "infused",
+      "MAP",
+      "MEASURE",
+      "MANAGE"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 5,
+        "chunk_id": "7576edb531d9-p5-c2"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 25,
+        "chunk_id": "7576edb531d9-p25-c1"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Requires connecting figure description on page 5 with Section 2 Core description on page 25 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-013",
+    "question": "Both NIST AI RMF 1.0 and NIST CSF 2.0 include a 'GOVERN' function. What are their respective focuses in each framework?",
+    "category": "cross_document",
+    "expected_answerable": true,
+    "reference_answer": "In NIST AI RMF 1.0, GOVERN focuses on cultivating and implementing a culture of risk management for AI systems. In NIST CSF 2.0, GOVERN establishes, communicates, and monitors organizational cybersecurity risk management strategy, policy, and supply chain risks.",
+    "required_concepts": [
+      "culture of risk management",
+      "cybersecurity risk management strategy"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 26,
+        "chunk_id": "7576edb531d9-p26-c3"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 8,
+        "chunk_id": "3c31f46fee98-p8-c2"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Compares GOVERN in AI RMF (page 26) against GOVERN in CSF 2.0 (page 8)."
+  },
+  {
+    "id": "EVAL-014",
+    "question": "What pangram sentence was recognized via OCR on the first page of the scanned sample document?",
+    "category": "ocr_scanned",
+    "expected_answerable": true,
+    "reference_answer": "The recognized sentence is 'The quick brown fox jumps over the lazy dog.'",
+    "required_concepts": [
+      "quick brown fox",
+      "lazy dog"
+    ],
+    "expected_citations": [
+      {
+        "filename": "scan_sample.pdf",
+        "page_number": 1,
+        "chunk_id": "a7123f565f9a-p1-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly extracted by OCR on page 1 of scan_sample.pdf."
+  },
+  {
+    "id": "EVAL-015",
+    "question": "What rule regarding page numbers is asserted on page two of the OCR scanned sample?",
+    "category": "ocr_scanned",
+    "expected_answerable": true,
+    "reference_answer": "Page two of the scanned document states: 'The page number should remain two.'",
+    "required_concepts": [
+      "page number should remain two"
+    ],
+    "expected_citations": [
+      {
+        "filename": "scan_sample.pdf",
+        "page_number": 2,
+        "chunk_id": "a7123f565f9a-p2-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly extracted by OCR on page 2 of scan_sample.pdf."
+  },
+  {
+    "id": "EVAL-016",
+    "question": "What socio-technical measures can organizations take to prevent algorithmic disparities and ensure fairness in AI outputs?",
+    "category": "semantic_vs_bm25",
+    "expected_answerable": true,
+    "reference_answer": "Organizations must manage harmful bias, integrate diverse multidisciplinary teams, employ regular TEVV practices, and balance trustworthy AI characteristics in socio-technical context to ensure fairness.",
+    "required_concepts": [
+      "bias",
+      "fairness",
+      "demographic"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 22,
+        "chunk_id": "7576edb531d9-p22-c4"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 23,
+        "chunk_id": "7576edb531d9-p23-c2"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Section 3.6 (Fair with Harmful Bias Managed) on pages 22-23 discusses demographic disparities and systemic bias."
+  },
+  {
+    "id": "EVAL-017",
+    "question": "What are the maximum administrative fines in euros established by the European Union AI Act for deploying prohibited AI practices?",
+    "category": "unanswerable",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "easy",
+    "rationale": "The EU AI Act and euro penalty fines are not contained anywhere in NIST AI RMF, CSF 2.0, or the sample PDFs."
+  },
+  {
+    "id": "EVAL-018",
+    "question": "What minimum RSA key size does NIST recommend for post-quantum resistant public key encryption?",
+    "category": "unanswerable",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "easy",
+    "rationale": "Post-quantum RSA key size specifications are not present in any of the four documents."
+  },
+  {
+    "id": "EVAL-019",
+    "question": "In what year did Guido van Rossum release the Python programming language?",
+    "category": "unanswerable",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "easy",
+    "rationale": "General programming history is completely absent from the PDF corpus."
+  },
+  {
+    "id": "EVAL-020",
+    "question": "Why did NIST CSF 2.0 decide to eliminate the GOVERN function in favor of focusing solely on technical safeguards?",
+    "category": "misleading_premise",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "medium",
+    "rationale": "The question contains a false premise: CSF 2.0 actually added the GOVERN function rather than eliminating it. The system should abstain or reject the false premise based strictly on the text."
+  },
+  {
+    "id": "EVAL-021",
+    "question": "How does the CiteWise pipeline configure Elasticsearch cluster nodes to index OCR scanned PDF documents?",
+    "category": "misleading_premise",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "medium",
+    "rationale": "False premise: CiteWise does not use Elasticsearch (it uses local BM25 and PyMuPDF/Tesseract). The corpus contains no evidence of Elasticsearch."
+  },
+  {
+    "id": "EVAL-022",
+    "question": "Which framework provides the lowest total implementation cost and licensing expenses for small healthcare organizations?",
+    "category": "ambiguous_insufficient",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "medium",
+    "rationale": "Neither document provides comparative dollar costs, licensing fees, or financial budget benchmarks."
+  }
+]

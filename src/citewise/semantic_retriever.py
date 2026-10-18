@@ -2,7 +2,7 @@
 """Retrieve PDF passages using semantic similarity."""
 
 import math
-from typing import Any
+from typing import Any, Optional
 
 from citewise.embeddings import EMBEDDING_DIMENSIONS, embed_query
 
@@ -40,7 +40,12 @@ def cosine_similarity(
 class SemanticRetriever:
     """Rank indexed PDF chunks by similarity to a search query."""
 
-    def __init__(self, index: dict[str, Any], client=None):
+    def __init__(
+        self,
+        index: dict[str, Any],
+        client=None,
+        query_cache: Optional[Any] = None,
+    ):
         if not isinstance(index, dict):
             raise TypeError("index must be a dictionary.")
 
@@ -76,6 +81,7 @@ class SemanticRetriever:
 
         self.items = items
         self.client = client
+        self.query_cache = query_cache
 
     def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """Return the top matching chunks, including source metadata."""
@@ -92,7 +98,10 @@ class SemanticRetriever:
         if not query.strip() or not self.items:
             return []
 
-        query_vector = embed_query(query, client=self.client)
+        if self.query_cache is not None:
+            query_vector = self.query_cache.get_embedding(query)
+        else:
+            query_vector = embed_query(query, client=self.client)
 
         if len(query_vector) != EMBEDDING_DIMENSIONS:
             raise ValueError("Query embedding has the wrong dimensions.")

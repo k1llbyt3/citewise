@@ -1,0 +1,57 @@
+{
+  "document": {
+    "document_id": "b637c456e6e509a787d8a22b6ac5577f947bd3adb6ff4b0f3e3ceb5901396e3b",
+    "filename": "text_sample.pdf",
+    "page_count": 3,
+    "pages": [
+      {
+        "page_number": 1,
+        "text": "CiteWise Sample Document\nCiteWise is a lightweight PDF ingestion system.\nIt extracts text, detects scanned pages, and uses OCR.\nThe pipeline preserves page numbers and document metadata.",
+        "extraction_method": "text",
+        "needs_ocr": false
+      },
+      {
+        "page_number": 2,
+        "text": "Why Chunking Matters\nChunking splits long documents into smaller passages.\nEach chunk retains its source page for future citations.\nOverlap can preserve context between adjacent chunks.",
+        "extraction_method": "text",
+        "needs_ocr": false
+      },
+      {
+        "page_number": 3,
+        "text": "Project Test Facts\nProject: CiteWise\nStage: PDF ingestion\nText extraction: PyMuPDF\nOCR engine: Tesseract\nDefault chunk size: 1000 characters\nDefault overlap: 150 characters",
+        "extraction_method": "text",
+        "needs_ocr": false
+      }
+    ],
+    "file_size_bytes": 3930
+  },
+  "chunks": [
+    {
+      "chunk_id": "b637c456e6e5-p1-c1",
+      "document_id": "b637c456e6e509a787d8a22b6ac5577f947bd3adb6ff4b0f3e3ceb5901396e3b",
+      "page_number": 1,
+      "chunk_index": 1,
+      "text": "CiteWise Sample Document\nCiteWise is a lightweight PDF ingestion system.\nIt extracts text, detects scanned pages, and uses OCR.\nThe pipeline preserves page numbers and document metadata.",
+      "extraction_method": "text"
+    },
+    {
+      "chunk_id": "b637c456e6e5-p2-c1",
+      "document_id": "b637c456e6e509a787d8a22b6ac5577f947bd3adb6ff4b0f3e3ceb5901396e3b",
+      "page_number": 2,
+      "chunk_index": 1,
+      "text": "Why Chunking Matters\nChunking splits long documents into smaller passages.\nEach chunk retains its source page for future citations.\nOverlap can preserve context between adjacent chunks.",
+      "extraction_method": "text"
+    },
+    {
+      "chunk_id": "b637c456e6e5-p3-c1",
+      "document_id": "b637c456e6e509a787d8a22b6ac5577f947bd3adb6ff4b0f3e3ceb5901396e3b",
+      "page_number": 3,
+      "chunk_index": 1,
+      "text": "Project Test Facts\nProject: CiteWise\nStage: PDF ingestion\nText extraction: PyMuPDF\nOCR engine: Tesseract\nDefault chunk size: 1000 characters\nDefault overlap: 150 characters",
+      "extraction_method": "text"
+    }
+  ],
+  "pages_still_needing_ocr": [],
+  "chunk_count": 3,
+  "status": "success"
+}

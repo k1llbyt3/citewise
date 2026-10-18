@@ -1,0 +1,43 @@
+{
+  "document": {
+    "document_id": "a7123f565f9a137cdda1dc4d0c26569a86c5ba5e2a3268861c4f028386c1b020",
+    "filename": "scan_sample.pdf",
+    "page_count": 2,
+    "pages": [
+      {
+        "page_number": 1,
+        "text": "CiteWise OCR Test\nThis document contains scanned text.\nThe quick brown fox jumps over the lazy dog.",
+        "extraction_method": "ocr",
+        "needs_ocr": false
+      },
+      {
+        "page_number": 2,
+        "text": "OCR Page Two\nThis is the second scanned page.\nThe page number should remain two.",
+        "extraction_method": "ocr",
+        "needs_ocr": false
+      }
+    ],
+    "file_size_bytes": 40316
+  },
+  "chunks": [
+    {
+      "chunk_id": "a7123f565f9a-p1-c1",
+      "document_id": "a7123f565f9a137cdda1dc4d0c26569a86c5ba5e2a3268861c4f028386c1b020",
+      "page_number": 1,
+      "chunk_index": 1,
+      "text": "CiteWise OCR Test\nThis document contains scanned text.\nThe quick brown fox jumps over the lazy dog.",
+      "extraction_method": "ocr"
+    },
+    {
+      "chunk_id": "a7123f565f9a-p2-c1",
+      "document_id": "a7123f565f9a137cdda1dc4d0c26569a86c5ba5e2a3268861c4f028386c1b020",
+      "page_number": 2,
+      "chunk_index": 1,
+      "text": "OCR Page Two\nThis is the second scanned page.\nThe page number should remain two.",
+      "extraction_method": "ocr"
+    }
+  ],
+  "pages_still_needing_ocr": [],
+  "chunk_count": 2,
+  "status": "success"
+}

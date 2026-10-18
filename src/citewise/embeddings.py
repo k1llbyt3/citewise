@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-
+from citewise.api_limits import wait_for_api_slot
 
 MODEL_NAME = "gemini-embedding-001"
 EMBEDDING_DIMENSIONS = 768
@@ -80,7 +80,7 @@ def embed_texts(
 
     for start in range(0, len(texts), batch_size):
         batch = list(texts[start : start + batch_size])
-
+        wait_for_api_slot()
         response = client.models.embed_content(
             model=MODEL_NAME,
             contents=batch,

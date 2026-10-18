@@ -1,0 +1,467 @@
+{
+  "metadata": {
+    "run_id": "eval_20261018_141932_retrieval_hybrid",
+    "timestamp": "20261018_141932",
+    "mode": "retrieval",
+    "retriever": "hybrid",
+    "live_mode": false,
+    "top_k": 5,
+    "dataset_path": "evaluation\\dataset.json",
+    "dataset_hash": "83725f74d6dff8d3",
+    "reports_path": "evaluation\\reports",
+    "cases_evaluated": 22
+  },
+  "retrieval": {
+    "retriever": "HYBRID",
+    "total_cases": 22,
+    "answerable_cases": 16,
+    "unanswerable_cases": 6,
+    "mean_recall_at_1": 0.4583,
+    "mean_recall_at_3": 0.5729,
+    "mean_recall_at_5": 0.7188,
+    "mrr": 0.6927,
+    "mean_ndcg_at_5": 0.6328,
+    "per_case": [
+      {
+        "case_id": "EVAL-001",
+        "category": "direct_factual",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p25-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p25-c1",
+          "7576edb531d9-p8-c1",
+          "3c31f46fee98-p19-c2",
+          "7576edb531d9-p26-c2",
+          "7576edb531d9-p25-c2"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 1.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      {
+        "case_id": "EVAL-002",
+        "category": "direct_factual",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "3c31f46fee98-p8-c2",
+          "3c31f46fee98-p9-c2",
+          "3c31f46fee98-p31-c2"
+        ],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p31-c2",
+          "3c31f46fee98-p8-c1",
+          "3c31f46fee98-p8-c2",
+          "3c31f46fee98-p9-c1",
+          "3c31f46fee98-p20-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 0.3333333333333333,
+        "recall_at_5": 0.6666666666666666,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 0.7039180890341347
+      },
+      {
+        "case_id": "EVAL-003",
+        "category": "direct_factual",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "3c31f46fee98-p31-c3"
+        ],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p29-c1",
+          "3c31f46fee98-p12-c4",
+          "3c31f46fee98-p6-c2",
+          "3c31f46fee98-p31-c3",
+          "3c31f46fee98-p13-c1"
+        ],
+        "first_hit_rank": 4,
+        "recall_at_1": 0.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 0.25,
+        "ndcg_at_5": 0.43067655807339306
+      },
+      {
+        "case_id": "EVAL-004",
+        "category": "direct_factual",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "b637c456e6e5-p3-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "b637c456e6e5-p3-c1",
+          "a7123f565f9a-p1-c1",
+          "b637c456e6e5-p1-c1",
+          "a7123f565f9a-p2-c1",
+          "7576edb531d9-p41-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 1.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      {
+        "case_id": "EVAL-005",
+        "category": "direct_factual",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p8-c1",
+          "7576edb531d9-p17-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p17-c1",
+          "7576edb531d9-p7-c4",
+          "7576edb531d9-p17-c2",
+          "7576edb531d9-p8-c1",
+          "7576edb531d9-p22-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 0.5,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 0.8772153153380493
+      },
+      {
+        "case_id": "EVAL-006",
+        "category": "paraphrased_semantic",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "3c31f46fee98-p9-c2"
+        ],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p9-c2",
+          "3c31f46fee98-p28-c1",
+          "3c31f46fee98-p27-c2",
+          "3c31f46fee98-p27-c3",
+          "3c31f46fee98-p9-c3"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 1.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      {
+        "case_id": "EVAL-007",
+        "category": "paraphrased_semantic",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p26-c3",
+          "7576edb531d9-p27-c2"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p28-c3",
+          "7576edb531d9-p24-c2",
+          "7576edb531d9-p21-c1",
+          "7576edb531d9-p26-c3",
+          "7576edb531d9-p28-c1"
+        ],
+        "first_hit_rank": 4,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.5,
+        "reciprocal_rank": 0.25,
+        "ndcg_at_5": 0.2640681225725909
+      },
+      {
+        "case_id": "EVAL-008",
+        "category": "paraphrased_semantic",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "b637c456e6e5-p2-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "b637c456e6e5-p1-c1",
+          "b637c456e6e5-p3-c1",
+          "b637c456e6e5-p2-c1",
+          "a7123f565f9a-p1-c1",
+          "3c31f46fee98-p30-c3"
+        ],
+        "first_hit_rank": 3,
+        "recall_at_1": 0.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 0.3333333333333333,
+        "ndcg_at_5": 0.5
+      },
+      {
+        "case_id": "EVAL-009",
+        "category": "multi_passage",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "3c31f46fee98-p6-c2",
+          "3c31f46fee98-p31-c1",
+          "3c31f46fee98-p31-c3"
+        ],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p11-c1",
+          "3c31f46fee98-p12-c2",
+          "3c31f46fee98-p11-c2",
+          "3c31f46fee98-p6-c2",
+          "3c31f46fee98-p12-c3"
+        ],
+        "first_hit_rank": 4,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.3333333333333333,
+        "reciprocal_rank": 0.25,
+        "ndcg_at_5": 0.20210734650054757
+      },
+      {
+        "case_id": "EVAL-010",
+        "category": "multi_passage",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p14-c2",
+          "7576edb531d9-p14-c3"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p14-c3",
+          "7576edb531d9-p41-c1",
+          "7576edb531d9-p14-c2",
+          "7576edb531d9-p18-c1",
+          "7576edb531d9-p16-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 0.5,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 0.9197207891481876
+      },
+      {
+        "case_id": "EVAL-011",
+        "category": "multi_page",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "3c31f46fee98-p6-c1",
+          "3c31f46fee98-p8-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p8-c1",
+          "3c31f46fee98-p31-c2",
+          "3c31f46fee98-p6-c3",
+          "3c31f46fee98-p4-c2",
+          "3c31f46fee98-p20-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 0.5,
+        "recall_at_5": 0.5,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 0.6131471927654584
+      },
+      {
+        "case_id": "EVAL-012",
+        "category": "multi_page",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p5-c2",
+          "7576edb531d9-p25-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p25-c1",
+          "7576edb531d9-p8-c1",
+          "7576edb531d9-p30-c3",
+          "7576edb531d9-p26-c2",
+          "7576edb531d9-p30-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 0.5,
+        "recall_at_5": 0.5,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 0.6131471927654584
+      },
+      {
+        "case_id": "EVAL-013",
+        "category": "cross_document",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p26-c3",
+          "3c31f46fee98-p8-c2"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p25-c1",
+          "7576edb531d9-p8-c1",
+          "7576edb531d9-p28-c1",
+          "7576edb531d9-p27-c2",
+          "7576edb531d9-p27-c1"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-014",
+        "category": "ocr_scanned",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "a7123f565f9a-p1-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "a7123f565f9a-p1-c1",
+          "b637c456e6e5-p1-c1",
+          "a7123f565f9a-p2-c1",
+          "b637c456e6e5-p3-c1",
+          "7576edb531d9-p3-c1"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 1.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      {
+        "case_id": "EVAL-015",
+        "category": "ocr_scanned",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "a7123f565f9a-p2-c1"
+        ],
+        "retrieved_chunk_ids": [
+          "a7123f565f9a-p2-c1",
+          "b637c456e6e5-p1-c1",
+          "a7123f565f9a-p1-c1",
+          "b637c456e6e5-p3-c1",
+          "7576edb531d9-p34-c3"
+        ],
+        "first_hit_rank": 1,
+        "recall_at_1": 1.0,
+        "recall_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      {
+        "case_id": "EVAL-016",
+        "category": "semantic_vs_bm25",
+        "expected_answerable": true,
+        "gold_chunk_ids": [
+          "7576edb531d9-p22-c4",
+          "7576edb531d9-p23-c2"
+        ],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p22-c3",
+          "7576edb531d9-p6-c3",
+          "7576edb531d9-p31-c2",
+          "7576edb531d9-p21-c2",
+          "7576edb531d9-p30-c2"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-017",
+        "category": "unanswerable",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "7576edb531d9-p7-c2",
+          "7576edb531d9-p11-c3",
+          "7576edb531d9-p36-c2",
+          "7576edb531d9-p7-c1",
+          "7576edb531d9-p6-c2"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-018",
+        "category": "unanswerable",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p2-c1",
+          "3c31f46fee98-p5-c1",
+          "3c31f46fee98-p32-c1",
+          "7576edb531d9-p8-c2",
+          "3c31f46fee98-p18-c2"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-019",
+        "category": "unanswerable",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p32-c2",
+          "7576edb531d9-p43-c3",
+          "7576edb531d9-p40-c3",
+          "3c31f46fee98-p3-c1",
+          "7576edb531d9-p23-c2"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-020",
+        "category": "misleading_premise",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p20-c2",
+          "3c31f46fee98-p8-c1",
+          "3c31f46fee98-p10-c1",
+          "3c31f46fee98-p16-c1",
+          "3c31f46fee98-p15-c1"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-021",
+        "category": "misleading_premise",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "b637c456e6e5-p1-c1",
+          "b637c456e6e5-p3-c1",
+          "a7123f565f9a-p1-c1",
+          "a7123f565f9a-p2-c1",
+          "b637c456e6e5-p2-c1"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      },
+      {
+        "case_id": "EVAL-022",
+        "category": "ambiguous_insufficient",
+        "expected_answerable": false,
+        "gold_chunk_ids": [],
+        "retrieved_chunk_ids": [
+          "3c31f46fee98-p5-c4",
+          "3c31f46fee98-p5-c3",
+          "3c31f46fee98-p16-c5",
+          "3c31f46fee98-p14-c1",
+          "7576edb531d9-p12-c2"
+        ],
+        "first_hit_rank": null,
+        "recall_at_1": 0.0,
+        "recall_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "ndcg_at_5": 0.0
+      }
+    ]
+  },
+  "answer": null
+}

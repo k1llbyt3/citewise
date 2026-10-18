@@ -1,10 +1,6 @@
-
 import pytest
-
 import citewise.hybrid_retriever as hybrid_module
 from citewise.hybrid_retriever import HybridRetriever
-
-
 def test_rrf_combines_rankings(monkeypatch):
     class FakeBM25:
         chunks = [
@@ -84,3 +80,31 @@ def test_invalid_top_k_is_rejected():
 def test_invalid_rrf_k_is_rejected():
     with pytest.raises(ValueError, match="rrf_k"):
         HybridRetriever([], {"items": []}, rrf_k=0)
+
+
+def test_hybrid_retriever_passes_query_cache(monkeypatch):
+    received_cache = []
+
+    class FakeSemantic:
+        def __init__(self, index, client=None, query_cache=None):
+            received_cache.append(query_cache)
+            self.items = []
+
+        def search(self, query, top_k=5):
+            return []
+
+    class FakeBM25:
+        def __init__(self, chunks):
+            self.chunks = []
+
+        def search(self, query, top_k=5):
+            return []
+
+    monkeypatch.setattr(hybrid_module, "SemanticRetriever", FakeSemantic)
+    monkeypatch.setattr(hybrid_module, "BM25Retriever", FakeBM25)
+
+    sentinel_cache = object()
+    retriever = HybridRetriever([], {"items": []}, query_cache=sentinel_cache)
+    assert retriever.query_cache is sentinel_cache
+    assert received_cache == [sentinel_cache]
+

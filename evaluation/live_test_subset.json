@@ -1,0 +1,61 @@
+[
+  {
+    "id": "EVAL-001",
+    "question": "What are the four primary functions that comprise the NIST AI Risk Management Framework Core?",
+    "category": "direct_factual",
+    "expected_answerable": true,
+    "reference_answer": "The NIST AI RMF Core comprises four functions: GOVERN, MAP, MEASURE, and MANAGE.",
+    "required_concepts": [
+      "GOVERN",
+      "MAP",
+      "MEASURE",
+      "MANAGE"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 25,
+        "chunk_id": "7576edb531d9-p25-c1"
+      }
+    ],
+    "difficulty": "easy",
+    "rationale": "Directly stated in Section 2 (AI RMF Core) on page 25 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-010",
+    "question": "What is TEVV in the NIST AI RMF, and why must TEVV tasks be integrated across the AI lifecycle?",
+    "category": "multi_passage",
+    "expected_answerable": true,
+    "reference_answer": "TEVV stands for test, evaluation, verification, and validation. Performed regularly across lifecycle dimensions, TEVV tasks provide insights into technical, societal, legal, and ethical standards, and enable both mid-course remediation and post-hoc risk management.",
+    "required_concepts": [
+      "test, evaluation, verification, and validation",
+      "lifecycle",
+      "remediation"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 14,
+        "chunk_id": "7576edb531d9-p14-c2"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 14,
+        "chunk_id": "7576edb531d9-p14-c3"
+      }
+    ],
+    "difficulty": "medium",
+    "rationale": "Synthesizes definition from chunk c2 and lifecycle role from chunk c3 on page 14 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "EVAL-020",
+    "question": "Why did NIST CSF 2.0 decide to eliminate the GOVERN function in favor of focusing solely on technical safeguards?",
+    "category": "misleading_premise",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "medium",
+    "rationale": "The question contains a false premise: CSF 2.0 actually added the GOVERN function rather than eliminating it. The system should abstain or reject the false premise based strictly on the text."
+  }
+]
