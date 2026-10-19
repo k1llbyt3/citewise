@@ -368,4 +368,126 @@ def test_evaluate_cli_report_preserves_answer_and_citations(tmp_path: Path):
     assert "- **Generated Answer**:" in md_content
 
 
+def test_evaluate_cli_report_serializes_document_coverage(tmp_path: Path):
+    results_dir = tmp_path / "results"
+    ret = main([
+        "--mode", "answer",
+        "--retriever", "bm25",
+        "--reports", "evaluation/reports",
+        "--dataset", "evaluation/dataset.json",
+        "--mock-responses", "tests/fixtures/sample_answer_fixtures.json",
+        "--results-dir", str(results_dir),
+        "--max-cases", "2",
+    ])
+    assert ret == 0
+
+    json_reports = list(results_dir.glob("*.json"))
+    md_reports = list(results_dir.glob("*.md"))
+    assert len(json_reports) == 1
+
+    payload = json.loads(json_reports[0].read_text(encoding="utf-8"))
+    assert "mean_document_coverage" in payload["answer"]
+    assert payload["answer"]["mean_document_coverage"] is not None
+
+    per_case = payload["answer"]["per_case"]
+    assert "document_coverage" in per_case[0]
+    assert per_case[0]["document_coverage"] == 1.0
+
+    md_content = md_reports[0].read_text(encoding="utf-8")
+    assert "| **Mean Document Coverage** |" in md_content
+    assert "DocCoverage=" in md_content
+
+
+def test_evaluate_cli_inapplicable_document_coverage_renders_na(tmp_path: Path):
+    # Create dataset with only unanswerable cases
+    unans_dataset = tmp_path / "unans_dataset.json"
+    unans_dataset.write_text(
+        json.dumps([
+            {
+                "id": "UNANS-001",
+                "question": "Unanswerable query?",
+                "category": "unanswerable",
+                "expected_answerable": False,
+                "reference_answer": "None",
+                "required_concepts": [],
+                "expected_citations": [],
+                "difficulty": "easy",
+                "rationale": "testing",
+            }
+        ]),
+        encoding="utf-8",
+    )
+
+    mock_fixtures = tmp_path / "mock_fixtures.json"
+    mock_fixtures.write_text(
+        json.dumps({
+            "description": "mock unanswerable",
+            "responses": {
+                "UNANS-001": {
+                    "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+                    "citations": [],
+                }
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    results_dir = tmp_path / "results"
+    ret = main([
+        "--mode", "answer",
+        "--retriever", "bm25",
+        "--reports", "evaluation/reports",
+        "--dataset", str(unans_dataset),
+        "--mock-responses", str(mock_fixtures),
+        "--results-dir", str(results_dir),
+    ])
+    assert ret == 0
+
+    json_reports = list(results_dir.glob("*.json"))
+    md_reports = list(results_dir.glob("*.md"))
+    assert len(json_reports) == 1
+
+    payload = json.loads(json_reports[0].read_text(encoding="utf-8"))
+    assert payload["answer"]["mean_document_coverage"] is None
+    assert payload["answer"]["per_case"][0]["document_coverage"] is None
+
+    md_content = md_reports[0].read_text(encoding="utf-8")
+    assert "| **Mean Document Coverage** | N/A |" in md_content
+    assert "DocCoverage=N/A" in md_content
+
+
+def test_evaluate_cli_unique_run_ids_no_overwriting(tmp_path: Path):
+    results_dir = tmp_path / "results"
+    import time
+
+    ret1 = main([
+        "--mode", "retrieval",
+        "--retriever", "bm25",
+        "--reports", "evaluation/reports",
+        "--dataset", "evaluation/dataset.json",
+        "--results-dir", str(results_dir),
+        "--max-cases", "1",
+    ])
+    assert ret1 == 0
+
+    time.sleep(1.1)
+
+    ret2 = main([
+        "--mode", "retrieval",
+        "--retriever", "bm25",
+        "--reports", "evaluation/reports",
+        "--dataset", "evaluation/dataset.json",
+        "--results-dir", str(results_dir),
+        "--max-cases", "1",
+    ])
+    assert ret2 == 0
+
+    json_reports = list(results_dir.glob("*.json"))
+    md_reports = list(results_dir.glob("*.md"))
+    assert len(json_reports) == 2
+    assert len(md_reports) == 2
+    assert json_reports[0].name != json_reports[1].name
+
+
+
 

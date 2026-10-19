@@ -14,6 +14,32 @@ def tokenize(text: str) -> list[str]:
     return re.findall(r"\b\w+\b", text.lower())
 
 
+def get_inflections(word: str) -> set[str]:
+    """Return common English singular/plural morphological variants for a word."""
+    w = word.lower()
+    variants = {w}
+    if len(w) <= 2:
+        return variants
+
+    if w.endswith("ies") and len(w) > 4:
+        variants.add(w[:-3] + "y")
+    elif w.endswith("es") and len(w) > 3:
+        if w.endswith(("sses", "shes", "ches", "xes", "zes")):
+            variants.add(w[:-2])
+        else:
+            variants.add(w[:-1])
+    elif w.endswith("s") and not w.endswith("ss") and len(w) > 3:
+        variants.add(w[:-1])
+    else:
+        if w.endswith("y") and len(w) > 2 and w[-2] not in "aeiou":
+            variants.add(w[:-1] + "ies")
+        elif w.endswith(("s", "sh", "ch", "x", "z")):
+            variants.add(w + "es")
+        else:
+            variants.add(w + "s")
+    return variants
+
+
 def load_chunks(report_paths: Iterable[str | Path]) -> list[dict]:
     """Load chunks and source metadata from CiteWise JSON reports."""
     chunks = []
@@ -103,22 +129,41 @@ class BM25Retriever:
         if not isinstance(top_k, int) or isinstance(top_k, bool) or top_k < 1:
             raise ValueError("top_k must be a positive integer.")
 
-        query_terms = set(tokenize(query))
-
-        if not query_terms or not self.chunks:
+        raw_terms = tokenize(query)
+        if not raw_terms or not self.chunks:
             return []
+
+        query_terms = set(raw_terms)
+        seen_variants: set[str] = set()
+        term_groups: list[tuple[str, set[str]]] = []
+        for term in query_terms:
+            if term in seen_variants:
+                continue
+            variants = get_inflections(term)
+            seen_variants.update(variants)
+            term_groups.append((term, variants))
 
         results = []
 
         for index, chunk in enumerate(self.chunks):
             score = 0.0
             length = self.doc_lengths[index]
+            chunk_lower = chunk["text"].lower()
 
-            for term in query_terms:
-                frequency = self.term_counts[index].get(term, 0)
-                inverse_frequency = self.idf.get(term, 0.0)
+            for primary_term, variants in term_groups:
+                present_variants = [
+                    v for v in variants if self.term_counts[index].get(v, 0) > 0
+                ]
+                if not present_variants:
+                    continue
 
-                if frequency == 0:
+                frequency = sum(
+                    self.term_counts[index].get(v, 0) for v in present_variants
+                )
+                inverse_frequency = max(
+                    self.idf.get(v, 0.0) for v in present_variants
+                )
+                if inverse_frequency <= 0:
                     continue
 
                 length_normalization = (
@@ -132,9 +177,35 @@ class BM25Retriever:
                     frequency + self.k1 * length_normalization
                 )
 
-                score += inverse_frequency * (
+                term_score = inverse_frequency * (
                     frequency * (self.k1 + 1) / denominator
                 )
+
+                # Heading match: chunk has a dedicated section for this term (e.g. "Variables:\n" or "\nVariables:")
+                has_heading = any(
+                    chunk_lower.startswith(f"{v}:")
+                    or f"\n{v}:" in chunk_lower
+                    or f"\n{v}\n" in chunk_lower
+                    for v in variants
+                    if len(v) > 2
+                )
+                # Definition match: chunk explicitly defines the term
+                has_definition = any(
+                    f"a {v} is" in chunk_lower
+                    or f"an {v} is" in chunk_lower
+                    or f"{v} is defined" in chunk_lower
+                    or f"{v} are defined" in chunk_lower
+                    or f"{v} is named" in chunk_lower
+                    for v in variants
+                    if len(v) > 2
+                )
+
+                if has_heading and has_definition:
+                    term_score *= 1.5
+                elif has_heading or has_definition:
+                    term_score *= 1.25
+
+                score += term_score
 
             if score > 0:
                 results.append({**chunk, "score": score})

@@ -5,6 +5,7 @@ import pytest
 from citewise.answer_eval import (
     compute_citation_metrics,
     compute_concept_coverage,
+    compute_document_coverage,
     evaluate_answers,
     evaluate_single_answer,
     is_abstention,
@@ -334,4 +335,132 @@ def test_sample_answer_fixtures_json():
     assert "EVAL-001" in responses
     assert "EVAL-017" in responses
     assert is_abstention(responses["EVAL-017"]["answer"], responses["EVAL-017"]["citations"]) is True
+
+
+def test_compute_document_coverage_scenarios():
+    gold = [
+        ExpectedCitation(filename="nist_ai_rmf.pdf", page_number=12, chunk_id="c1"),
+        ExpectedCitation(filename="nist_csf_2.pdf", page_number=30, chunk_id="c2"),
+    ]
+
+    # 1. Full coverage: cites both required documents
+    cited_full = [
+        {"filename": "nist_ai_rmf.pdf", "page_number": 12, "chunk_id": "c1"},
+        {"filename": "nist_csf_2.pdf", "page_number": 30, "chunk_id": "c2"},
+    ]
+    cov_full = compute_document_coverage(cited_full, gold, expected_answerable=True)
+    assert cov_full == 1.0
+
+    # 2. Partial coverage: cites only one of two required documents
+    cited_partial = [
+        {"filename": "nist_ai_rmf.pdf", "page_number": 12, "chunk_id": "c1"},
+    ]
+    cov_part = compute_document_coverage(cited_partial, gold, expected_answerable=True)
+    assert cov_part == 0.5
+
+    # 3. No coverage: cites a completely different document
+    cited_none = [
+        {"filename": "other.pdf", "page_number": 1, "chunk_id": "c9"},
+    ]
+    cov_none = compute_document_coverage(cited_none, gold, expected_answerable=True)
+    assert cov_none == 0.0
+
+    # 4. Irrelevant extra documents: cites both required plus an extra document
+    cited_extra = [
+        {"filename": "nist_ai_rmf.pdf", "page_number": 12, "chunk_id": "c1"},
+        {"filename": "nist_csf_2.pdf", "page_number": 30, "chunk_id": "c2"},
+        {"filename": "extra.pdf", "page_number": 5, "chunk_id": "c8"},
+    ]
+    cov_extra = compute_document_coverage(cited_extra, gold, expected_answerable=True)
+    assert cov_extra == 1.0  # (2 covered / 2 required)
+
+    # 5. Single-document case
+    gold_single = [ExpectedCitation(filename="report.pdf", page_number=1, chunk_id="c1")]
+    assert compute_document_coverage(
+        [{"filename": "report.pdf", "page_number": 1, "chunk_id": "c1"}],
+        gold_single,
+        expected_answerable=True,
+    ) == 1.0
+    assert compute_document_coverage(
+        [{"filename": "wrong.pdf", "page_number": 1, "chunk_id": "c2"}],
+        gold_single,
+        expected_answerable=True,
+    ) == 0.0
+
+    # 6. Unanswerable case returns None (not applicable)
+    assert compute_document_coverage([], [], expected_answerable=False) is None
+    assert compute_document_coverage(cited_full, gold, expected_answerable=False) is None
+
+    # 7. Model abstention on answerable case returns 0.0
+    assert compute_document_coverage(
+        [], gold, expected_answerable=True, model_answerable=False
+    ) == 0.0
+
+
+def test_document_coverage_in_evaluate_answers_aggregation():
+    case_cross = EvalCase(
+        id="ADV-001",
+        question="Compare docA and docB",
+        category="cross_document",
+        expected_answerable=True,
+        reference_answer="Synthesis",
+        required_concepts=["synthesis"],
+        expected_citations=[
+            ExpectedCitation("docA.pdf", 1, "cA"),
+            ExpectedCitation("docB.pdf", 2, "cB"),
+        ],
+    )
+    case_single = EvalCase(
+        id="ADV-002",
+        question="Fact in docA",
+        category="direct_factual",
+        expected_answerable=True,
+        reference_answer="Fact",
+        required_concepts=["fact"],
+        expected_citations=[
+            ExpectedCitation("docA.pdf", 1, "cA"),
+        ],
+    )
+    case_unans = EvalCase(
+        id="ADV-003",
+        question="Unanswerable",
+        category="unanswerable",
+        expected_answerable=False,
+        reference_answer="None",
+        required_concepts=[],
+        expected_citations=[],
+    )
+
+    results = {
+        # ADV-001: cites only docA (0.5 doc coverage)
+        "ADV-001": {
+            "answer": "synthesis",
+            "citations": [{"filename": "docA.pdf", "page_number": 1, "chunk_id": "cA"}],
+        },
+        # ADV-002: cites docA (1.0 doc coverage)
+        "ADV-002": {
+            "answer": "fact",
+            "citations": [{"filename": "docA.pdf", "page_number": 1, "chunk_id": "cA"}],
+        },
+        # ADV-003: abstains (None doc coverage)
+        "ADV-003": {
+            "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+            "citations": [],
+        },
+    }
+
+    passages = {
+        "ADV-001": [{"chunk_id": "cA", "filename": "docA.pdf", "page_number": 1}],
+        "ADV-002": [{"chunk_id": "cA", "filename": "docA.pdf", "page_number": 1}],
+        "ADV-003": [],
+    }
+
+    report = evaluate_answers([case_cross, case_single, case_unans], results, passages)
+    assert report.per_case_results[0].document_coverage == 0.5
+    assert report.per_case_results[1].document_coverage == 1.0
+    assert report.per_case_results[2].document_coverage is None
+
+    # Mean document coverage should average only applicable cases: (0.5 + 1.0) / 2 = 0.75
+    assert report.mean_document_coverage == 0.75
+
 

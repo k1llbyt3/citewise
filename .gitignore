@@ -1,13 +1,14 @@
-
-# Python bytecode
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Virtual environments
 .venv/
 venv/
 env/
+ENV/
 
 # Test and coverage artifacts
 .pytest_cache/
@@ -37,6 +38,13 @@ dist/
 Thumbs.db
 desktop.ini
 
-# Generated ingestion reports
+# Project runtime data, uploads, and caches
+user_data/
+uploads/
 output/*.json
-data/semantic_index.json
+data/*.json
+!data/.gitkeep
+
+# Evaluation runtime results and temporary caches
+evaluation/results/
+!evaluation/results/.gitkeep

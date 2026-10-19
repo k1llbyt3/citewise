@@ -26,6 +26,7 @@ class CaseAnswerResult:
     page_recall: float
     is_grounded_in_supplied: bool
     unsupplied_citations: list[dict[str, Any]]
+    document_coverage: Optional[float] = None
     citations: list[dict[str, Any]] = field(default_factory=list)
     source_ids: list[str] = field(default_factory=list)
     is_error: bool = False
@@ -47,6 +48,7 @@ class AnswerEvaluationReport:
     mean_page_recall: float
     grounded_citation_rate: float
     error_count: int
+    mean_document_coverage: Optional[float] = None
     is_mock_generation: bool = False
     per_case_results: list[CaseAnswerResult] = field(default_factory=list)
 
@@ -179,6 +181,49 @@ def compute_citation_metrics(
     }
 
 
+def compute_document_coverage(
+    citations: list[dict[str, Any]],
+    gold_citations: list[Any],
+    expected_answerable: bool,
+    model_answerable: bool = True,
+) -> Optional[float]:
+    """Compute required-document coverage (covered required docs / total required docs).
+
+    Returns None for unanswerable cases or cases without required gold documents.
+    Returns 0.0 if the model abstains or encounters an error on an answerable case.
+    """
+    if not expected_answerable:
+        return None
+
+    gold_docs = {
+        c.filename
+        for c in gold_citations
+        if hasattr(c, "filename") and c.filename
+    } if gold_citations else set()
+
+    if not gold_docs and gold_citations:
+        gold_docs = {
+            c["filename"]
+            for c in gold_citations
+            if isinstance(c, dict) and c.get("filename")
+        }
+
+    if not gold_docs:
+        return None
+
+    if not model_answerable:
+        return 0.0
+
+    cited_docs = {
+        c["filename"]
+        for c in citations
+        if isinstance(c, dict) and c.get("filename")
+    }
+
+    covered = cited_docs & gold_docs
+    return round(len(covered) / len(gold_docs), 4)
+
+
 def evaluate_single_answer(
     case: EvalCase,
     generated_result: dict[str, Any],
@@ -266,6 +311,13 @@ def evaluate_single_answer(
             if isinstance(s, str) and s not in derived_source_ids:
                 derived_source_ids.append(s)
 
+    doc_coverage = compute_document_coverage(
+        citations=citations,
+        gold_citations=case.expected_citations,
+        expected_answerable=case.expected_answerable,
+        model_answerable=model_answerable,
+    )
+
     return CaseAnswerResult(
         case_id=case.id,
         question=case.question,
@@ -284,6 +336,7 @@ def evaluate_single_answer(
         page_recall=round(cit_metrics["page_recall"], 4),
         is_grounded_in_supplied=is_grounded,
         unsupplied_citations=unsupplied,
+        document_coverage=doc_coverage,
         citations=enriched_citations,
         source_ids=derived_source_ids,
         is_error=is_err,
@@ -354,6 +407,17 @@ def evaluate_answers(
     ans_acc = correct_decisions / total if total > 0 else 0.0
     abst_acc = correct_abstentions / unans_count if unans_count > 0 else 1.0
 
+    doc_coverages = [
+        r.document_coverage
+        for r in case_results
+        if r.document_coverage is not None
+    ]
+    mean_doc_cov = (
+        round(sum(doc_coverages) / len(doc_coverages), 4)
+        if doc_coverages
+        else None
+    )
+
     return AnswerEvaluationReport(
         total_cases=total,
         answerable_cases=ans_count,
@@ -370,6 +434,7 @@ def evaluate_answers(
             grounded_count / total if total else 0.0, 4
         ),
         error_count=err_count,
+        mean_document_coverage=mean_doc_cov,
         is_mock_generation=is_mock_generation,
         per_case_results=case_results,
     )

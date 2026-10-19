@@ -1,0 +1,189 @@
+{
+  "description": "Deterministic mock responses fixture for unit testing CiteWise answer evaluation scoring logic on advanced_dataset.json without LLM API calls.",
+  "responses": {
+    "ADV-001": {
+      "answer": "In NIST AI RMF 1.0, risk tolerance refers to an organization's readiness to bear risk, which is not prescribed by the framework and depends on legal, regulatory, and resource priorities. In NIST CSF 2.0, risk tolerance informs organizational cybersecurity objectives (GV.RM-01) where stakeholders determine priorities and executives monitor cybersecurity risks within that tolerance.",
+      "citations": [
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 12,
+          "chunk_id": "7576edb531d9-p12-c1"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 30,
+          "chunk_id": "3c31f46fee98-p30-c2"
+        }
+      ]
+    },
+    "ADV-002": {
+      "answer": "In NIST AI RMF 1.0, the GOVERN function emphasizes cultivating an organizational culture of risk management, accountability, and transparent risk governance across the AI lifecycle. In NIST CSF 2.0, GOVERN (GV) emphasizes establishing, communicating, and monitoring organizational cybersecurity risk management strategy, policy, and executive oversight.",
+      "citations": [
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 26,
+          "chunk_id": "7576edb531d9-p26-c3"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 20,
+          "chunk_id": "3c31f46fee98-p20-c2"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 21,
+          "chunk_id": "3c31f46fee98-p21-c1"
+        }
+      ]
+    },
+    "ADV-003": {
+      "answer": "CiteWise is configured with a default chunk size of 1000 characters and 150 characters overlap. In contrast, the NIST CSF 2.0 Core structure is organized hierarchically into Functions, Categories, and Subcategories to organize cybersecurity outcomes.",
+      "citations": [
+        {
+          "filename": "text_sample.pdf",
+          "page_number": 3,
+          "chunk_id": "b637c456e6e5-p3-c1"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 8,
+          "chunk_id": "3c31f46fee98-p8-c1"
+        }
+      ]
+    },
+    "ADV-004": {
+      "answer": "In NIST CSF 2.0, Cybersecurity Supply Chain Risk Management (GV.SC) identifies, manages, and monitors third-party risks across suppliers and partners. In NIST AI RMF 1.0 MANAGE 4.1, risks from third-party software and AI dependencies are monitored and managed throughout the AI lifecycle.",
+      "citations": [
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 23,
+          "chunk_id": "3c31f46fee98-p23-c1"
+        },
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 39,
+          "chunk_id": "7576edb531d9-p39-c1"
+        }
+      ]
+    },
+    "ADV-005": {
+      "answer": "Section 3.6 notes that bias is prevalent in computing and AI systems. Harmful biases can stem from systemic bias present in historical inequalities, computational and statistical bias in data and algorithms, and human-cognitive bias in design and deployment decisions.",
+      "citations": [
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 22,
+          "chunk_id": "7576edb531d9-p22-c3"
+        },
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 22,
+          "chunk_id": "7576edb531d9-p22-c4"
+        },
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 23,
+          "chunk_id": "7576edb531d9-p23-c2"
+        }
+      ]
+    },
+    "ADV-006": {
+      "answer": "Under the MANAGE function (MANAGE 1 and 2), AI risks are prioritized and strategies for risk reduction or residual risk management are planned and implemented. Risks are documented, addressed based on impact and likelihood, and continuous monitoring mechanisms are maintained.",
+      "citations": [
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 38,
+          "chunk_id": "7576edb531d9-p38-c1"
+        },
+        {
+          "filename": "nist_ai_rmf.pdf",
+          "page_number": 38,
+          "chunk_id": "7576edb531d9-p38-c2"
+        }
+      ]
+    },
+    "ADV-007": {
+      "answer": "CSF 2.0 Tiers (Tier 1 Partial, Tier 2 Risk Informed, Tier 3 Repeatable, Tier 4 Adaptive) characterize the rigor and sophistication of cybersecurity governance and risk management practices. Organizations select Target Tiers to guide progression toward desired Target Profile outcomes without requiring all organizations to reach Tier 4.",
+      "citations": [
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 12,
+          "chunk_id": "3c31f46fee98-p12-c4"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 13,
+          "chunk_id": "3c31f46fee98-p13-c1"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 31,
+          "chunk_id": "3c31f46fee98-p31-c3"
+        }
+      ]
+    },
+    "ADV-008": {
+      "answer": "The two Categories under the DETECT (DE) function in NIST CSF 2.0 are Continuous Monitoring (DE.CM) and Adverse Event Analysis (DE.AE).",
+      "citations": [
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 26,
+          "chunk_id": "3c31f46fee98-p26-c1"
+        },
+        {
+          "filename": "nist_csf_2.pdf",
+          "page_number": 26,
+          "chunk_id": "3c31f46fee98-p26-c2"
+        }
+      ]
+    },
+    "ADV-009": {
+      "answer": "Page 1 contains 'CiteWise OCR Test', 'This document contains scanned text.', and the pangram 'The quick brown fox jumps over the lazy dog.' Page 2 contains 'OCR Page Two', 'This is the second scanned page.', and 'The page number should remain two.'",
+      "citations": [
+        {
+          "filename": "scan_sample.pdf",
+          "page_number": 1,
+          "chunk_id": "a7123f565f9a-p1-c1"
+        },
+        {
+          "filename": "scan_sample.pdf",
+          "page_number": 2,
+          "chunk_id": "a7123f565f9a-p2-c1"
+        }
+      ]
+    },
+    "ADV-010": {
+      "answer": "CiteWise has a default chunk size of 1000 characters and a default overlap of 150 characters.",
+      "citations": [
+        {
+          "filename": "text_sample.pdf",
+          "page_number": 3,
+          "chunk_id": "b637c456e6e5-p3-c1"
+        }
+      ]
+    },
+    "ADV-011": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    },
+    "ADV-012": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    },
+    "ADV-013": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    },
+    "ADV-014": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    },
+    "ADV-015": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    },
+    "ADV-016": {
+      "answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+      "citations": []
+    }
+  }
+}

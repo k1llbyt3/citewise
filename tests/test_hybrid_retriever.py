@@ -108,3 +108,92 @@ def test_hybrid_retriever_passes_query_cache(monkeypatch):
     assert retriever.query_cache is sentinel_cache
     assert received_cache == [sentinel_cache]
 
+
+@pytest.mark.parametrize("top_k", [3, 5, 8])
+def test_hybrid_retriever_supported_top_k_options(monkeypatch, top_k):
+    """Verify Hybrid retriever executes cleanly for all UI-supported top_k values."""
+    chunks = [{"chunk_id": f"c{i}", "text": f"text {i}"} for i in range(10)]
+    items = [{"chunk_id": f"c{i}", "text": f"text {i}"} for i in range(10)]
+
+    class FakeBM25:
+        def __init__(self, c):
+            self.chunks = c
+        def search(self, query, top_k=5):
+            return [{"chunk_id": f"c{i}", "text": f"text {i}", "score": 10 - i} for i in range(len(self.chunks))][:top_k]
+
+    class FakeSemantic:
+        def __init__(self, index, client=None, query_cache=None):
+            self.items = index["items"]
+        def search(self, query, top_k=5):
+            return [{"chunk_id": f"c{i}", "text": f"text {i}", "score": 1.0 - i * 0.05} for i in range(len(self.items))][:top_k]
+
+    monkeypatch.setattr(hybrid_module, "BM25Retriever", FakeBM25)
+    monkeypatch.setattr(hybrid_module, "SemanticRetriever", FakeSemantic)
+
+    retriever = HybridRetriever(chunks=chunks, index={"items": items})
+    results = retriever.search("query", top_k=top_k)
+    assert len(results) == top_k
+    assert results[0]["chunk_id"] == "c0"
+
+
+def test_hybrid_retriever_empty_semantic_items_no_crash(monkeypatch):
+    """When a document is uploaded without semantic embeddings, Hybrid search must not crash with top_k=0."""
+    chunks = [
+        {"chunk_id": "c1", "text": "Variables store data.", "score": 5.0},
+        {"chunk_id": "c2", "text": "Functions execute logic.", "score": 3.0},
+    ]
+
+    class FakeBM25:
+        def __init__(self, c):
+            self.chunks = c
+        def search(self, query, top_k=5):
+            return [
+                {"chunk_id": "c1", "text": "Variables store data.", "score": 5.0},
+                {"chunk_id": "c2", "text": "Functions execute logic.", "score": 3.0},
+            ][:top_k]
+
+    class RealSemanticValidator:
+        def __init__(self, index, client=None, query_cache=None):
+            self.items = index.get("items", [])
+        def search(self, query, top_k=5):
+            if top_k < 1:
+                raise ValueError("top_k must be a positive integer.")
+            return []
+
+    monkeypatch.setattr(hybrid_module, "BM25Retriever", FakeBM25)
+    monkeypatch.setattr(hybrid_module, "SemanticRetriever", RealSemanticValidator)
+
+    # Empty semantic index items, as happens for newly uploaded PDF
+    retriever = HybridRetriever(chunks=chunks, index={"items": []})
+    results = retriever.search("what are variables?", top_k=3)
+    assert len(results) == 2
+    assert results[0]["chunk_id"] == "c1"
+    assert results[0]["bm25_rank"] == 1
+    assert results[0]["semantic_rank"] is None
+
+
+def test_hybrid_retriever_empty_bm25_chunks_no_crash(monkeypatch):
+    """When chunks is empty, Hybrid search must not crash calling BM25 with top_k=0."""
+    class RealBM25Validator:
+        def __init__(self, c):
+            self.chunks = c
+        def search(self, query, top_k=5):
+            if top_k < 1:
+                raise ValueError("top_k must be a positive integer.")
+            return []
+
+    class FakeSemantic:
+        def __init__(self, index, client=None, query_cache=None):
+            self.items = index["items"]
+        def search(self, query, top_k=5):
+            return [{"chunk_id": "s1", "text": "semantic text", "score": 0.9}][:top_k]
+
+    monkeypatch.setattr(hybrid_module, "BM25Retriever", RealBM25Validator)
+    monkeypatch.setattr(hybrid_module, "SemanticRetriever", FakeSemantic)
+
+    retriever = HybridRetriever(chunks=[], index={"items": [{"chunk_id": "s1"}]})
+    results = retriever.search("query", top_k=3)
+    assert len(results) == 1
+    assert results[0]["chunk_id"] == "s1"
+
+

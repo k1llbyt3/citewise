@@ -194,6 +194,7 @@ def write_evaluation_reports(
             "answerability_accuracy": answer_report.answerability_accuracy,
             "abstention_accuracy": answer_report.abstention_accuracy,
             "mean_concept_coverage": answer_report.mean_concept_coverage,
+            "mean_document_coverage": getattr(answer_report, "mean_document_coverage", None),
             "mean_citation_precision": answer_report.mean_citation_precision,
             "mean_citation_recall": answer_report.mean_citation_recall,
             "mean_citation_f1": answer_report.mean_citation_f1,
@@ -214,6 +215,7 @@ def write_evaluation_reports(
                     "citations": getattr(r, "citations", []),
                     "concept_coverage": r.concept_coverage,
                     "missing_concepts": r.missing_concepts,
+                    "document_coverage": getattr(r, "document_coverage", None),
                     "citation_precision": r.citation_precision,
                     "citation_recall": r.citation_recall,
                     "citation_f1": r.citation_f1,
@@ -273,6 +275,11 @@ def write_evaluation_reports(
                     "",
                 ]
             )
+        doc_cov_display = (
+            f"{answer_report.mean_document_coverage:.4f}"
+            if getattr(answer_report, "mean_document_coverage", None) is not None
+            else "N/A"
+        )
         md_lines.extend(
             [
                 "## Answer & Citation Metrics",
@@ -282,6 +289,7 @@ def write_evaluation_reports(
                 f"| **Answerability Accuracy** | {answer_report.answerability_accuracy:.4f} |",
                 f"| **Abstention Accuracy** | {answer_report.abstention_accuracy:.4f} |",
                 f"| **Mean Concept Coverage** | {answer_report.mean_concept_coverage:.4f} |",
+                f"| **Mean Document Coverage** | {doc_cov_display} |",
                 f"| **Citation Precision (Chunk)** | {answer_report.mean_citation_precision:.4f} |",
                 f"| **Citation Recall (Chunk)** | {answer_report.mean_citation_recall:.4f} |",
                 f"| **Citation F1 (Chunk)** | {answer_report.mean_citation_f1:.4f} |",
@@ -353,8 +361,13 @@ def write_evaluation_reports(
             else:
                 md_lines.append("- **Citations**: None (Abstained)")
 
+            doc_cov_val = (
+                f"{r.document_coverage:.2f}"
+                if getattr(r, "document_coverage", None) is not None
+                else "N/A"
+            )
             md_lines.append(
-                f"- **Metrics**: Coverage={r.concept_coverage:.2f}, Precision={r.citation_precision:.2f}, Recall={r.citation_recall:.2f}, Grounded={r.is_grounded_in_supplied}"
+                f"- **Metrics**: Coverage={r.concept_coverage:.2f}, DocCoverage={doc_cov_val}, Precision={r.citation_precision:.2f}, Recall={r.citation_recall:.2f}, Grounded={r.is_grounded_in_supplied}"
             )
             if r.missing_concepts:
                 md_lines.append(f"- **Missing Concepts**: {', '.join(r.missing_concepts)}")
@@ -566,6 +579,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"Answerability: {answer_report.answerability_accuracy:.4f}")
         print(f"Abstention:    {answer_report.abstention_accuracy:.4f}")
         print(f"Concept Cov:   {answer_report.mean_concept_coverage:.4f}")
+        if getattr(answer_report, "mean_document_coverage", None) is not None:
+            print(f"Doc Coverage:  {answer_report.mean_document_coverage:.4f}")
     print(f"JSON Report:   {json_path}")
     print(f"Markdown:      {md_path}")
     print("======================================================\n")

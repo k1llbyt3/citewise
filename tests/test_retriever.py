@@ -1,4 +1,5 @@
 import pytest,json
+from pathlib import Path
 from citewise.retriever import BM25Retriever, load_chunks, tokenize
 
 def write_report(path, chunks):
@@ -137,3 +138,83 @@ def test_search_returns_empty_when_no_terms_match():
     ])
 
     assert retriever.search("quantum astronomy") == []
+
+
+def test_get_inflections_infers_singular_and_plural():
+    from citewise.retriever import get_inflections
+
+    assert "variable" in get_inflections("variables")
+    assert "variables" in get_inflections("variable")
+    assert "process" in get_inflections("processes")
+    assert "processes" in get_inflections("process")
+    assert "category" in get_inflections("categories")
+    assert "categories" in get_inflections("category")
+    # Short words / articles must not be inflated
+    assert get_inflections("a") == {"a"}
+    assert get_inflections("is") == {"is"}
+    assert get_inflections("to") == {"to"}
+
+
+def test_bm25_does_not_double_count_overlapping_variants():
+    """Verify that specifying both singular and plural in query does not double-count."""
+    chunks = [
+        make_chunk("chunk-1", 1, "A variable stores a value in memory."),
+    ]
+    retriever = BM25Retriever(chunks)
+    score_single = retriever.search("variable", top_k=1)[0]["score"]
+    score_both = retriever.search("variable variables", top_k=1)[0]["score"]
+    assert score_single == pytest.approx(score_both)
+
+
+def test_bm25_matches_inflections_across_singular_and_plural():
+    chunks = [
+        make_chunk("chunk-singular", 1, "A variable stores a value in memory."),
+        make_chunk("chunk-unrelated", 2, "Database transactions must satisfy ACID."),
+    ]
+    retriever = BM25Retriever(chunks)
+    # Search with plural 'variables', chunk uses singular 'variable'
+    results = retriever.search("what are variables?", top_k=2)
+
+    assert len(results) == 1
+    assert results[0]["chunk_id"] == "chunk-singular"
+
+
+def test_bm25_prioritizes_direct_definition_over_tangential_mentions():
+    """Verify that chunks with explicit headings and definition patterns outrank tangential mentions."""
+    chunks = [
+        make_chunk(
+            "chunk-tangential",
+            26,
+            "JavaScript uses objects for everything. Variables reference functions, and variables are passed to handlers.",
+        ),
+        make_chunk(
+            "chunk-definition",
+            29,
+            "Variables:\n\nA variable is named memory location to store data. JavaScript is loosely typed.",
+        ),
+    ]
+    retriever = BM25Retriever(chunks)
+    results = retriever.search("what are variables?", top_k=2)
+
+    assert len(results) == 2
+    assert results[0]["chunk_id"] == "chunk-definition"
+    assert results[0]["page_number"] == 29
+    assert results[0]["score"] > results[1]["score"]
+
+
+def test_exact_variables_query_on_user_report():
+    """Regression test on actual user report to guarantee page 29 chunk ranks #1."""
+    report_path = Path("user_data/reports/bc3b4bc509c8.json")
+    if not report_path.is_file():
+        pytest.skip("User report bc3b4bc509c8.json not present in workspace")
+
+    chunks = load_chunks([report_path])
+    retriever = BM25Retriever(chunks)
+    results = retriever.search("what are variables?", top_k=5)
+
+    assert len(results) >= 1
+    top_result = results[0]
+    assert top_result["page_number"] == 29
+    assert top_result["chunk_id"] == "bc3b4bc509c8-p29-c1"
+    assert "named memory location" in top_result["text"]
+

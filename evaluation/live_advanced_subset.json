@@ -1,0 +1,71 @@
+[
+  {
+    "id": "ADV-001",
+    "question": "Compare how 'risk tolerance' is defined and applied in NIST CSF 2.0 versus NIST AI RMF 1.0.",
+    "category": "cross_document",
+    "expected_answerable": true,
+    "reference_answer": "In NIST AI RMF 1.0, risk tolerance refers to an organization's readiness to bear risk, which is not prescribed by the framework and depends on legal, regulatory, and resource priorities. In NIST CSF 2.0, risk tolerance informs organizational cybersecurity objectives (GV.RM-01) where stakeholders determine priorities and executives monitor cybersecurity risks within that tolerance.",
+    "required_concepts": [
+      "readiness to bear risk",
+      "risk tolerance",
+      "priorities"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 12,
+        "chunk_id": "7576edb531d9-p12-c1"
+      },
+      {
+        "filename": "nist_csf_2.pdf",
+        "page_number": 30,
+        "chunk_id": "3c31f46fee98-p30-c2"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Requires synthesizing Section 1.2.2 on page 12 of nist_ai_rmf.pdf with GV.RM-01 in Appendix B on page 30 of nist_csf_2.pdf."
+  },
+  {
+    "id": "ADV-005",
+    "question": "What socio-technical factors and sources of bias are detailed in Section 3.6 of the NIST AI Risk Management Framework?",
+    "category": "multi_passage",
+    "expected_answerable": true,
+    "reference_answer": "Section 3.6 notes that bias is prevalent in computing and AI systems. Harmful biases can stem from systemic bias present in historical inequalities, computational and statistical bias in data and algorithms, and human-cognitive bias in design and deployment decisions.",
+    "required_concepts": [
+      "bias",
+      "systemic",
+      "computational",
+      "human-cognitive"
+    ],
+    "expected_citations": [
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 22,
+        "chunk_id": "7576edb531d9-p22-c3"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 22,
+        "chunk_id": "7576edb531d9-p22-c4"
+      },
+      {
+        "filename": "nist_ai_rmf.pdf",
+        "page_number": 23,
+        "chunk_id": "7576edb531d9-p23-c2"
+      }
+    ],
+    "difficulty": "hard",
+    "rationale": "Synthesizes bias categories across contiguous chunks c3 and c4 on page 22 and c2 on page 23 of nist_ai_rmf.pdf."
+  },
+  {
+    "id": "ADV-011",
+    "question": "Why did NIST CSF 2.0 designate RECOVER as an optional implementation Tier rather than a primary Core Function?",
+    "category": "misleading_premise",
+    "expected_answerable": false,
+    "reference_answer": "I couldn't find enough information in the provided PDF passages to answer this question reliably.",
+    "required_concepts": [],
+    "expected_citations": [],
+    "difficulty": "medium",
+    "rationale": "False premise: RECOVER (RC) is one of the six primary Core Functions in CSF 2.0, not an optional Tier. The system must abstain."
+  }
+]

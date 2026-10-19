@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import pytest
 
-from citewise import answer_cli, hybrid_search_cli, search_cli
+from citewise import answer_cli, hybrid_search_cli, search_cli, semantic_search_cli
 from citewise.embedding_index import load_embedding_index
 
 
@@ -231,3 +231,75 @@ def test_answer_cli_e2e_error_handling(monkeypatch, capsys):
         assert "reports directory not found" in err
     finally:
         sys.argv = orig_argv
+
+
+def test_semantic_search_cli_e2e_success(sample_embedding_vector, monkeypatch, capsys):
+    """Semantic search CLI runs real index loading and cosine similarity, mocking only embed_query."""
+    import citewise.embeddings
+    import sys
+
+    monkeypatch.setattr(
+        citewise.embeddings,
+        "embed_query",
+        lambda query, client=None: sample_embedding_vector,
+    )
+
+    orig_argv = sys.argv
+    try:
+        sys.argv = [
+            "semantic_search_cli",
+            "Why does chunking matter?",
+            "--index", "data/semantic_index.json",
+            "--top-k", "2",
+        ]
+        ret = semantic_search_cli.main()
+        assert ret == 0
+        out = capsys.readouterr().out
+        assert "Semantic search: Why does chunking matter?" in out
+        assert "Results: 2" in out
+        assert "text_sample.pdf — page 2" in out
+        assert "Similarity:" in out
+        assert "b637c456e6e5-p2-c1" in out
+    finally:
+        sys.argv = orig_argv
+
+
+def test_semantic_search_cli_e2e_missing_index(capsys):
+    """Semantic search CLI returns 1 and error message on stderr if index is missing."""
+    import sys
+
+    orig_argv = sys.argv
+    try:
+        sys.argv = [
+            "semantic_search_cli",
+            "Any query",
+            "--index", "data/nonexistent_index.json",
+        ]
+        ret = semantic_search_cli.main()
+        assert ret == 1
+        err = capsys.readouterr().err
+        assert "Error: semantic index not found" in err
+        assert "nonexistent_index.json" in err
+    finally:
+        sys.argv = orig_argv
+
+
+def test_semantic_search_cli_e2e_invalid_top_k(capsys):
+    """Semantic search CLI raises SystemExit(2) on invalid top_k (< 1)."""
+    import sys
+
+    orig_argv = sys.argv
+    try:
+        sys.argv = [
+            "semantic_search_cli",
+            "Any query",
+            "--top-k", "0",
+        ]
+        with pytest.raises(SystemExit) as exc_info:
+            semantic_search_cli.main()
+        assert exc_info.value.code == 2
+        err = capsys.readouterr().err
+        assert "--top-k must be at least 1" in err
+    finally:
+        sys.argv = orig_argv
+

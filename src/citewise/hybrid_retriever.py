@@ -49,10 +49,15 @@ class HybridRetriever:
             return []
 
         # Get the full rankings so RRF can combine both lists.
-        keyword_results = self.bm25.search(query, top_k=len(self.bm25.chunks))
-        semantic_results = self.semantic.search(
-            query,
-            top_k=len(self.semantic.items),
+        keyword_results = (
+            self.bm25.search(query, top_k=len(self.bm25.chunks))
+            if self.bm25.chunks
+            else []
+        )
+        semantic_results = (
+            self.semantic.search(query, top_k=len(self.semantic.items))
+            if self.semantic.items
+            else []
         )
 
         combined: dict[str, dict[str, Any]] = {}
@@ -62,7 +67,9 @@ class HybridRetriever:
             combined[chunk_id] = {
                 **result,
                 "bm25_rank": rank,
+                "bm25_score": result.get("score"),
                 "semantic_rank": None,
+                "semantic_score": None,
                 "hybrid_score": 1.0 / (self.rrf_k + rank),
             }
 
@@ -73,11 +80,14 @@ class HybridRetriever:
                 combined[chunk_id] = {
                     **result,
                     "bm25_rank": None,
+                    "bm25_score": None,
                     "semantic_rank": rank,
+                    "semantic_score": result.get("score"),
                     "hybrid_score": 0.0,
                 }
 
             combined[chunk_id]["semantic_rank"] = rank
+            combined[chunk_id]["semantic_score"] = result.get("score")
             combined[chunk_id]["hybrid_score"] += 1.0 / (
                 self.rrf_k + rank
             )
